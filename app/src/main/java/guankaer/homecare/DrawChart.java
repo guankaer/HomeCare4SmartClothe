@@ -126,7 +126,7 @@ public class DrawChart extends View {
 
 
 //			paint.setStyle(Paint.Style.FILL);
-//			paint.setColor(Color.RED);
+//			paint.setColor(Color.BLACK);
 //			for (int i = 0; i < Rlist.size() ; i++) {
 //				int pos = Rlist.get(i);
 //				canvas.drawCircle(plist.get(pos).x, plist.get(pos).y, 4, paint);

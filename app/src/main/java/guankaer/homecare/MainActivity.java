@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import guankaer.bluetooth.Bluetooth;
-import guankaer.bluetooth.BluetoothService;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -30,8 +29,6 @@ public class MainActivity extends AppCompatActivity {
         setOnclick(Records);
         setOnclick(Connect);
         setOnclick(Settings);
-//        BluetoothServiceIntent.setAction("guankaer.bluetooth.BluetoothService");
-//        BluetoothService.Init(this);
         Bluetooth.Init(this);
     }
 

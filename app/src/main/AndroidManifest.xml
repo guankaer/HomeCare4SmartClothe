@@ -27,12 +27,6 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name="guankaer.bluetooth.BluetoothService">
-            <intent-filter >
-                <action android:name="guankaer.bluetooth.BluetoothService"/>
-            </intent-filter>
-        </service>
     </application>
 
 </manifest>
