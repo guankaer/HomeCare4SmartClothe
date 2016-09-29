@@ -117,7 +117,7 @@ public class DrawChart extends View {
 
 		Paint paint = new Paint();
 		paint.setColor(Color.rgb(172,208,82));
-		paint.setColor(Color.WHITE);
+		paint.setColor(Color.RED);
 		paint.setStyle(Paint.Style.STROKE);
 		if (plist.size() > 1) {
 
@@ -125,12 +125,12 @@ public class DrawChart extends View {
 				canvas.drawLine(plist.get(i-1).x,plist.get(i-1).y,plist.get(i).x,plist.get(i).y,paint);
 
 
-			paint.setStyle(Paint.Style.FILL);
-			paint.setColor(Color.RED);
-			for (int i = 0; i < Rlist.size() ; i++) {
-				int pos = Rlist.get(i);
-				canvas.drawCircle(plist.get(pos).x, plist.get(pos).y, 4, paint);
-			}
+//			paint.setStyle(Paint.Style.FILL);
+//			paint.setColor(Color.RED);
+//			for (int i = 0; i < Rlist.size() ; i++) {
+//				int pos = Rlist.get(i);
+//				canvas.drawCircle(plist.get(pos).x, plist.get(pos).y, 4, paint);
+//			}
 
 		}
 	}

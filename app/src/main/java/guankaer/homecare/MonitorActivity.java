@@ -1,9 +1,9 @@
 package guankaer.homecare;
 
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.content.Intent;
 import android.os.Handler;
+import android.provider.*;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -29,6 +29,9 @@ public class MonitorActivity extends AppCompatActivity {
     private int sum_1 = 0;
     private int sum_2 = 0;
     private int sum_3 = 0;
+    private int sum_4 = 0;
+    private int sum_5 = 0;
+    private int sum_6 = 0;
     private int count = 0;
     private static int timeNow = 0;
 
@@ -38,18 +41,22 @@ public class MonitorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_monitor);
 
         initializeVariables();
-//        startService(new Intent(this, BluetoothService.class));
-//        initConnect();
+        initConnect();
+        Bluetooth.Init(this);
         handler.post(btTimer);
         timeNow = 0;
     }
 
     public void initConnect(){
-        Bluetooth.btSearch();
-        for (BluetoothDevice btDevice : Bluetooth.listDevice) {
-            if (btDevice.getAddress().equals(Bluetooth.address)) {
-                Bluetooth.btConnect(btDevice);
+        if(Bluetooth.flag == 0){
+            Bluetooth.btSearch();
+            for (BluetoothDevice btDevice : Bluetooth.listDevice) {
+                if (btDevice.getAddress().equals(Bluetooth.address)) {
+                    Bluetooth.btConnect(btDevice);
+                }
             }
+        }else if (Bluetooth.flag == 1){
+            Bluetooth.btConnAbort();
         }
 
     }
@@ -106,8 +113,6 @@ public class MonitorActivity extends AppCompatActivity {
     private Runnable btTimer = new Runnable() {
         public void run() {
             try {
-//                if (!Bluetooth.isConn && cv.startNow)
-//                    cv.stop();
                 int bytes = Bluetooth.getData();
                 if (Bluetooth.byteData != null) {
 
@@ -127,19 +132,21 @@ public class MonitorActivity extends AppCompatActivity {
                                         timeNow++;
 
                                         //saveEMDRawData(sum_3);
-//                                        if (timeNow % 2 == 0 ) { // downsample
-//                                            if (modeshow == "ECG") {
-//
-//                                            } else {
-//                                                drawChart1.prepareLine2(sum_1);
-//                                                drawChart2.prepareLine2(sum_2);
-//                                                drawChart3.prepareLine2(sum_3);
-//                                            }
-//                                        }
+                                        if (timeNow % 2 == 0 ) { // downsample
+                                            ecgChart1.prepareLine2(sum_1);
+                                            ecgChart2.prepareLine2(sum_2);
+                                            ecgChart3.prepareLine2(sum_3);
+                                            xChart.prepareLine2(sum_4);
+                                            yChart.prepareLine2(sum_5);
+                                            zChart.prepareLine2(sum_6);
+                                        }
                                         count = 0;
                                         sum_1 = 0;
                                         sum_2 = 0;
                                         sum_3 = 0;
+                                        sum_4 = 0;
+                                        sum_5 = 0;
+                                        sum_6 = 0;
                                     }
                                 }
                                 sequence = tempSequence;
@@ -151,7 +158,6 @@ public class MonitorActivity extends AppCompatActivity {
                 Toast.makeText(MonitorActivity.this, e.toString(),
                         Toast.LENGTH_LONG).show();
             }
-//            if (!change)
                 handler.post(this);
         }
     };
@@ -160,23 +166,29 @@ public class MonitorActivity extends AppCompatActivity {
         int value_1 = 0;
         int value_2 = 0;
         int value_3 = 0;
+        int value_4 = 0;
+        int value_5 = 0;
+        int value_6 = 0;
 
-//        if (modeshow == "ECG") {
             value_1 = Bluetooth
                     .From2ComplementtoUnsigned(temp[j * 18 + k + 4]);
             value_2 = Bluetooth
                     .From2ComplementtoUnsigned(temp[j * 18 + k + 6]);
             value_3 = Bluetooth
                     .From2ComplementtoUnsigned(temp[j * 18 + k + 8]);
-//        } else {
-//            value_1 = (temp[j * 18 + k + 10]);
-//            value_2 = (temp[j * 18 + k + 12]);
-//            value_3 = (temp[j * 18 + k + 14]);
-//        }
+            value_4 = Bluetooth
+                    .From2ComplementtoUnsigned(temp[j * 18 + k + 10]);
+            value_5 = Bluetooth
+                    .From2ComplementtoUnsigned(temp[j * 18 + k + 12]);
+            value_6 = Bluetooth
+                    .From2ComplementtoUnsigned(temp[j * 18 + k + 14]);
 
         sum_1 = sum_1 + (value_1 << ((count % 2) * 8));
         sum_2 = sum_2 + (value_2 << ((count % 2) * 8));
         sum_3 = sum_3 + (value_3 << ((count % 2) * 8));
+        sum_4 = sum_4 + (value_4 << ((count % 2) * 8));
+        sum_5 = sum_5 + (value_5 << ((count % 2) * 8));
+        sum_6 = sum_6 + (value_6 << ((count % 2) * 8));
     }
 
     @Override
