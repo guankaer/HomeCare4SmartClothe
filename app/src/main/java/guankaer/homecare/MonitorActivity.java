@@ -1,12 +1,14 @@
 package guankaer.homecare;
 
 import android.bluetooth.BluetoothDevice;
+import android.content.Intent;
 import android.os.Handler;
 import android.provider.*;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.widget.Toast;
 
 import guankaer.bluetooth.*;
@@ -46,6 +48,24 @@ public class MonitorActivity extends AppCompatActivity {
         handler.post(btTimer);
         timeNow = 0;
     }
+
+//    @Override
+//    public  boolean onKeyDown(int keyCode, KeyEvent event){
+//        if(keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0){
+//            ecgChart1.stop();
+//            ecgChart2.stop();
+//            ecgChart3.stop();
+//            xChart.stop();
+//            yChart.stop();
+//            zChart.stop();
+//            Intent intent = new Intent(MonitorActivity.this,MainActivity.class);
+//            startActivityForResult(intent,6);
+//            MonitorActivity.this.finish();
+//            return true;
+//        }else
+//            return super.onKeyDown(keyCode, event);
+//    }
+
 
     public void initConnect(){
         if(Bluetooth.flag == 0){
